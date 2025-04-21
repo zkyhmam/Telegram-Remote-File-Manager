@@ -1,0 +1,23 @@
+# Environment variables
+.env
+
+# Log files
+*.log
+bot_activity.log
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# IDE specific files
+.idea/
+.vscode/
+
+# Persistence file (if used)
+*.pkl
+bot_persistence.pkl
+
+# OS generated files
+.DS_Store
+Thumbs.db

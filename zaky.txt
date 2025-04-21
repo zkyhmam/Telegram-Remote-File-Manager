@@ -1,0 +1,45 @@
+=======================================
+Telegram File Manager Bot - Refactored
+=======================================
+
+❧ Hey There!
+
+This bot provides a secure and interactive way to browse and manage files on the server where it's running, directly through Telegram. It's designed with security and usability in mind.
+
+Features:
+----------
+*   🔐 Secure Access: Only the authorized user (defined in `.env`) can interact with the bot.
+*   📁 Directory Browsing: Navigate through directories using inline buttons.
+*   📄 File Download: Download files directly to your Telegram chat.
+*   🔍 Recursive Search: Find files and folders within the current directory and its subdirectories using wildcard support (`*`).
+*   🔗 Symlink Support: Symlinks are indicated (🔗) and handled safely (targets are resolved within the allowed directory).
+*   📄 Pagination: Handles directories with many items by splitting them into pages.
+*   💅 Fancy UI: Uses styled text and emojis for a better visual experience (HTML formatting in Telegram).
+*   💻 Rich Console Output: Provides informative and visually appealing console logs for the administrator running the bot.
+*   ⚙️ Configurable: Set the bot token, authorized user, and starting directory via an `.env` file.
+*   ⚠️ Robust Error Handling: Provides clear feedback on permissions issues, file not found, etc.
+*   ⏱️ Rate Limiting Feedback: Provides context via popup on rapid button clicks.
+
+Setup:
+------
+1.  Clone or download this project.
+2.  Install dependencies: `pip install -r requirements.txt`
+3.  Create a `.env` file by copying `.env.example`.
+4.  Fill in your `TELEGRAM_BOT_TOKEN` and `AUTHORIZED_USER_ID` in the `.env` file.
+5.  Optionally, set the `START_DIRECTORY` in `.env` to the absolute path you want the bot to start in. If not set, it defaults to the home directory of the user running the bot. Ensure the bot has read permissions!
+6.  Run the bot: `python bot.py`
+
+Important Security Note:
+------------------------
+The bot is restricted to operate within the `START_DIRECTORY`. Never run this bot as root or set the `START_DIRECTORY` to `/` unless you fully understand the security implications and have restricted permissions appropriately. The authorized user will have read access to *everything* within the `START_DIRECTORY` that the bot process itself can read.
+
+=======================================
+Made by: Zaky1million 😊♥️
+For contact or project requests: https://t.me/Zaky1million
+Please keep this credit as a sign of respect and support.
+Keep going, developer!
+Every great project starts with a single line of code.
+Believe in your skills and never stop learning.
+You're not just coding – you're creating magic.
+Your future self will thank you for the effort you put in today.
+=======================================
