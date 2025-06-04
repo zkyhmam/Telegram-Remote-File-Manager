@@ -15,20 +15,22 @@ logger = logging.getLogger(__name__)
 
 # --- Core Bot Configuration ---
 TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-AUTHORIZED_USER_ID_STR = os.getenv("AUTHORIZED_USER_ID")
+ADMIN_USER_ID_STR = os.getenv("ADMIN_USER_ID")
+BOT_IMAGE_URL = os.getenv("BOT_IMAGE_URL", "https://i.postimg.cc/SRKg918j/filesharing-plesk-t.jpg")
+
 
 if not TOKEN:
     logger.critical("Eʀʀᴏʀ: TELEGRAM_BOT_TOKEN ɴᴏᴛ ғᴏᴜɴᴅ ɪɴ .env ғɪʟᴇ ᴏʀ ᴇɴᴠɪʀᴏɴᴍᴇɴᴛ ᴠᴀʀɪᴀʙʟᴇs.")
     sys.exit(1)
 
-if not AUTHORIZED_USER_ID_STR:
-    logger.critical("Eʀʀᴏʀ: AUTHORIZED_USER_ID ɴᴏᴛ ғᴏᴜɴᴅ ɪɴ .env ғɪʟᴇ ᴏʀ ᴇɴᴠɪʀᴏɴᴍᴇɴᴛ ᴠᴀʀɪᴀʙʟᴇs.")
+if not ADMIN_USER_ID_STR:
+    logger.critical("Eʀʀᴏʀ: AUTHORIZED_USER_ID (Admin ID) ɴᴏᴛ ғᴏᴜɴᴅ ɪɴ .env ғɪʟᴇ ᴏʀ ᴇɴᴠɪʀᴏɴᴍᴇɴᴛ ᴠᴀʀɪᴀʙʟᴇs.")
     sys.exit(1)
 
 try:
-    AUTHORIZED_USER_ID = int(AUTHORIZED_USER_ID_STR)
+    ADMIN_USER_ID = int(ADMIN_USER_ID_STR)
 except ValueError:
-    logger.critical(f"Eʀʀᴏʀ: Iɴᴠᴀʟɪᴅ AUTHORIZED_USER_ID '{AUTHORIZED_USER_ID_STR}'. Mᴜsᴛ ʙᴇ ᴀɴ ɪɴᴛᴇɢᴇʀ.")
+    logger.critical(f"Eʀʀᴏʀ: Iɴᴠᴀʟɪᴅ AUTHORIZED_USER_ID '{ADMIN_USER_ID_STR}'. Mᴜsᴛ ʙᴇ ᴀɴ ɪɴᴛᴇɢᴇʀ.")
     sys.exit(1)
 
 # --- Filesystem Configuration ---
@@ -57,8 +59,10 @@ MAX_FILENAME_DISPLAY_LENGTH = 28
 ITEMS_PER_PAGE = 24
 MAX_CALLBACK_DATA_LENGTH = 64
 SEARCH_RESULTS_LIMIT = 100
-MIN_CALLBACK_INTERVAL = 0.8
+MIN_CALLBACK_INTERVAL = 0.8 # Seconds
 LOG_FILE_NAME = "bot_activity.log"
+AUTHORIZED_USERS_FILE = "authorized_users.json"
+
 
 # --- Callback Data Prefixes ---
 CB_PREFIX_NAV_DIR = "d:"
@@ -66,26 +70,28 @@ CB_PREFIX_NAV_FILE = "f:"
 CB_PREFIX_NAV_PAGE = "p:"
 CB_PREFIX_NAV_PARENT = "up"
 CB_PREFIX_NAV_ROOT = "rt"
-CB_PREFIX_SRCH_START = "s_go"
+# CB_PREFIX_SRCH_START = "s_go" # No longer needed, search is automatic
 CB_PREFIX_SRCH_BACK = "s_bk"
 CB_PREFIX_SRCH_DIR = "sd:"
 CB_PREFIX_SRCH_FILE = "sf:"
-CB_PREFIX_SRCH_CANCEL = "s_cl" # <-- New prefix for search cancel button
+# CB_PREFIX_SRCH_CANCEL = "s_cl" # Cancel is a command /cancel
 CB_PREFIX_NOOP = "noop"
+CB_PREFIX_ACCEPT_USER = "au:"
+CB_PREFIX_REJECT_USER = "ru:"
+CB_PREFIX_DISMISS_ADMIN_MSG = "adm_d:"
 
-# --- Conversation States for Search ---
-ASKING_SEARCH_TERM = 0
+
+# --- Conversation States for Search (No longer used as search is not a conversation) ---
+# ASKING_SEARCH_TERM = 0 # Removed
 
 # --- User Data Keys ---
 UD_KEY_CURRENT_PATH = "current_path"
 UD_KEY_CURRENT_PAGE = "current_page"
-UD_KEY_VIEW_ITEMS = "view_items"
-UD_KEY_SEARCH_RESULTS = "search_results"
-UD_KEY_SEARCH_BASE_PATH = "search_base_path"
-# UD_KEY_SEARCH_PROMPT_MSG_ID = "search_prompt_msg_id" # Will store ID of message *with* cancel button
-UD_KEY_SEARCH_PROMPT_MSG_ID = "search_prompt_cancel_msg_id" # <-- Renamed for clarity
-UD_KEY_SEARCH_FORCE_REPLY_MSG_ID = "search_force_reply_msg_id" # <-- New key for ForceReply message ID
+UD_KEY_VIEW_ITEMS = "view_items" # Items currently displayed in folder view
+UD_KEY_SEARCH_RESULTS = "search_results" # Results from the last automatic text search
+UD_KEY_SEARCH_BASE_PATH = "search_base_path" # Path from which the last search was initiated
 UD_KEY_LAST_CB_TIME = "last_cb_time"
+UD_KEY_CURRENT_MESSAGE_ID = "current_message_id" # To edit messages with photo
 
 # Made by: Zaky1million 😊♥️
 # For contact or project requests: https://t.me/Zaky1million
